@@ -2,6 +2,8 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\base\InvalidArgumentException;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -22,7 +24,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','captcha'],
                         'allow' => true,
                     ],
                     [
@@ -50,6 +52,10 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
         ];
     }
 
@@ -76,7 +82,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->goBack();
+			$this->redirect('site/index');
         } else {
             $model->password = '';
 

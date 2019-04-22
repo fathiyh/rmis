@@ -13,7 +13,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     //tambahkan
-    'homeUrl' => '/fathi/yiifathi',
+    'homeUrl' => '/rmis',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
